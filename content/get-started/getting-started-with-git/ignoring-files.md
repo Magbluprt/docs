@@ -26,16 +26,16 @@ GitHub maintains an official list of recommended *.gitignore* files for many pop
 3. Create a *.gitignore* file for your repository.
    ```shell
    $ touch .gitignore
-  ```
+   ```
 
    If the command succeeds, there will be no output.
-   
+
 For an example *.gitignore* file, see "[Some common .gitignore configurations](https://gist.github.com/octocat/9257657)" in the Octocat repository.
 
 If you want to ignore a file that is already checked in, you must untrack the file before you add a rule to ignore it. From your terminal, untrack the file.
 
 ```shell
-$ git rm --cached <em>FILENAME</em>
+$ git rm --cached FILENAME
 ```
 
 ## Configuring ignored files for all repositories on your computer
@@ -44,9 +44,9 @@ You can also create a global *.gitignore* file to define a list of rules for ign
 
 {% data reusables.command_line.open_the_multi_os_terminal %}
 2. Configure Git to use the exclude file *~/.gitignore_global* for all Git repositories.
-  ```shell
-  $ git config --global core.excludesfile ~/.gitignore_global
-  ```
+   ```shell
+   $ git config --global core.excludesfile ~/.gitignore_global
+   ```
 
 ## Excluding local files without creating a *.gitignore* file
 
@@ -60,7 +60,7 @@ Use your favorite text editor to open the file called *.git/info/exclude* within
 
 ## Further Reading
 
-* [Ignoring files](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring) in the Pro Git book
-* [.gitignore](https://git-scm.com/docs/gitignore) in the man pages for Git
+* [Ignoring files](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring) in the Git documentation
+* [.gitignore](https://git-scm.com/docs/gitignore) in the Git documentation
 * [A collection of useful *.gitignore* templates](https://github.com/github/gitignore) in the github/gitignore repository
 * [gitignore.io](https://www.gitignore.io/) site

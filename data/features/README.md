@@ -13,6 +13,7 @@ Add a `versions` block to the YML file with the short names of the versions the 
 ```yaml
 versions:
   fpt: '*'
+  ghec: '*'
   ghes: '>3.1'
   ghae: '*'
 ```
@@ -30,6 +31,7 @@ You can also use the feature in frontmatter in content files:
 ```yaml
 versions:
   fpt: '*'
+  ghec: '*'
   ghes: '>3.1'
   feature: 'meow'
 ```
@@ -38,7 +40,7 @@ You cannot use `feature:` to specify multiple concurrent versions, as this is no
 
 ## Schema enforcement
 
-The schema for validating the feature versioning lives in [`tests/helpers/schemas/feature-versions-schema.js`](/tests/helpers/schemas/feature-versions-schema.js) and is exercised by [`tests/linting/lint-versioning.js`](/tests/linting/lint-versioning.js).
+The schema for validating the feature versioning lives in [`src/content-linter/lib/feature-versions-schema.js`](src/content-linter/lib/feature-versions-schema.js) and is exercised by [`tests/linting/lint-versioning.js`](tests/linting/lint-versioning.js).
 
 ## Script to remove feature tags
 

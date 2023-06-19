@@ -1,6 +1,11 @@
+import { expect, jest } from '@jest/globals'
 import robotsParser from 'robots-parser'
+
+import {
+  SURROGATE_ENUMS,
+  makeLanguageSurrogateKey,
+} from '../../middleware/set-fastly-surrogate-key.js'
 import { get } from '../helpers/e2etest.js'
-import { jest } from '@jest/globals'
 
 describe('robots.txt', () => {
   jest.setTimeout(5 * 60 * 1000)
@@ -12,10 +17,11 @@ describe('robots.txt', () => {
         Host: 'docs.github.com',
       },
     })
+    expect(res.statusCode).toBe(200)
     robots = robotsParser('https://docs.github.com/robots.txt', res.text)
   })
 
-  it('allows indexing of the homepage and English content', async () => {
+  test('allows indexing of the homepage and English content', async () => {
     expect(robots.isAllowed('https://docs.github.com/')).toBe(true)
     expect(robots.isAllowed('https://docs.github.com/en')).toBe(true)
     expect(
@@ -23,21 +29,24 @@ describe('robots.txt', () => {
     ).toBe(true)
   })
 
-  it('disallows indexing of azurecontainer.io domains', async () => {
+  test('disallows indexing of azurecontainer.io domains', async () => {
     const res = await get('/robots.txt', {
       headers: {
         host: 'docs-internal-preview-12345-asdfz.azurecontainer.io',
       },
     })
-    expect(res.text).toEqual('User-agent: *\nDisallow: /')
+    expect(res.body).toEqual('User-agent: *\nDisallow: /')
   })
 
-  it('does not have duplicate lines', () => {
-    const lines = new Set()
-    for (const line of res.text.split('\n')) {
-      if (/^\s*$/.test(line)) continue
-      expect(lines.has(line)).toBe(false)
-      lines.add(line)
-    }
+  test('does not have duplicate lines', () => {
+    expect(res.body.split('\n').length).toBe(new Set(res.body.split('\n')).size)
+  })
+
+  test('is cached by headers', () => {
+    expect(res.headers['cache-control']).toMatch(/public, max-age=/)
+
+    const surrogateKeySplit = res.headers['surrogate-key'].split(/\s/g)
+    expect(surrogateKeySplit.includes(SURROGATE_ENUMS.DEFAULT)).toBeTruthy()
+    expect(surrogateKeySplit.includes(makeLanguageSurrogateKey('en'))).toBeTruthy()
   })
 })
