@@ -1,3 +1,0 @@
-# .githubmag
-###
-michel anthony grendahl
